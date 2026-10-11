@@ -155,7 +155,7 @@ def main():
                 )
                 print(" mark-done <task_id>                - Mark a task as Done")
                 print(
-                    " list [status]                      - List all tasks, optionally filtered by status (todo, in-progress, done)"
+                    " list [status]                      - List all tasks, optionally filtered by status (todo, in_progress, done)"
                 )
                 print(" help                               - Show this help message")
                 print(" exit                               - Exit the program\n")

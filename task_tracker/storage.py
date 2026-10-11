@@ -15,8 +15,10 @@ def load_data():
             content = file.read()
             # if the file has content, convert the JSON string to a Python list
             # if the file is empty, return an empty list
-            return json.loads(content) if content else []
-    except (json.JSONDecoderError, IOError):
+            data = json.loads(content) if content else []
+            # the app always saves a list, so any other type means a damaged file
+            return data if isinstance(data, list) else []
+    except (json.JSONDecodeError, UnicodeDecodeError, IOError):
         # if the file is corrupted or reading fails, return an empty list so the program keeps running
         return []
 
