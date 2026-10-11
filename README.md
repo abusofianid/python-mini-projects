@@ -13,6 +13,8 @@
 | # | Project Name | Description | Topic / Libraries |
 |:-:| :--- | :--- | :--- |
 | 1 | **[Task Tracker](./task_tracker)** | A tool to manage, track, and organize daily tasks efficiently. | `CRUD`, `File Handling` |
+| 2 | **[QR Code Generator](./qr_code_generator)** | A tool that turns a link or text into a QR code image and saves it as a PNG file. | `qrcode`, `Pillow`, `File Handling` |
+| 3 | **[Password Generator](./password_generator)** | A command-line tool that generates strong random passwords and estimates how strong they are. | `argparse`, `secrets`, `Unit Tests` |
 
 > *Note: Click on the project name to navigate to the specific project folder.*
 
