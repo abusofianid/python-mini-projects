@@ -1,18 +1,18 @@
 import qrcode
 import os
 
-# Data yang ingin dimasukkan (bisa berupa Link URL atau Teks)
+# The data to put into the QR code (can be a URL link or text)
 data = input("Input link or text: ")
 
-# Membuat QR Code
+# Create the QR code
 img = qrcode.make(data)
 
-# Mengecek nama file yang sudah ada untuk menghindari overwrite
+# Check for existing file names to avoid overwriting
 counter = 1
 while os.path.exists(os.path.join(os.path.dirname(__file__), f"qrcode_{counter}.png")):
     counter += 1
 
-# Menyimpan gambar
+# Save the image
 nama_file = os.path.join(os.path.dirname(__file__), f"qrcode_{counter}.png")
 img.save(nama_file)
 print(f"QR Code success created and saved as {nama_file}")

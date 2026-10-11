@@ -1,15 +1,15 @@
 import os
-import shlex  # library agar input dengan tanda kutip dibaca satu kesatuan
+import shlex  # library so quoted input is read as one piece
 from datetime import datetime
 from manager import taskmanager
 import config
 
 
-# fungsi utama program
+# main function of the program
 def main():
     manager = taskmanager()
     os.system("cls" if os.name == "nt" else "clear")
-    # tmapilan cli
+    # CLI display
     print("=" * 50)
     print("     Task Tracker CLI")
     print("=" * 50)
@@ -19,9 +19,9 @@ def main():
 
     while True:
         try:
-            # input user
+            # user input
             user_input = input("task-cli > ").strip()
-            # jika user menekan enter tanpa input, ulangi loop
+            # if the user presses enter without typing anything, repeat the loop
             if not user_input:
                 continue
             if user_input.lower() in ["exit"]:
@@ -33,12 +33,12 @@ def main():
             except ValueError:
                 print("error:closing quote is missing.")
                 continue
-            # perintah utama (add, update, delete, list, help)
+            # main command (add, update, delete, list, help)
             command = args[0].lower()
-            # argumen tambahan (deskripsi, id, status)
+            # extra arguments (description, id, status)
             cmd_args = args[1:]
 
-            # perintah add
+            # add command
             if command == "add":
                 if cmd_args:
                     tid = manager.add_task(cmd_args[0])
@@ -46,9 +46,9 @@ def main():
                     print(f"Task added successfully with ID: {tid}")
                 else:
                     print("Error: Description is required for adding a task.")
-            # perintah update
+            # update command
             elif command == "update":
-                # pastikan ada id dan deskripsi
+                # make sure there is an id and a description
                 if len(cmd_args) >= 2:
                     sucess = manager.update_task(int(cmd_args[0]), cmd_args[1])
                     os.system("cls" if os.name == "nt" else "clear")
@@ -62,7 +62,7 @@ def main():
                         "Error: Task ID and new description are required for updating a task."
                     )
 
-            # perintah hapus
+            # delete command
             elif command == "delete":
                 if cmd_args:
                     sucess = manager.delete_task(int(cmd_args[0]))
@@ -74,7 +74,7 @@ def main():
                     )
                 else:
                     print("Error: Task ID is required for deleting a task.")
-            # perintah mark status
+            # mark status commands
             elif command == "mark-in-progress":
                 if cmd_args:
                     sucess = manager.update_task_status(
@@ -103,11 +103,11 @@ def main():
                     )
                 else:
                     print("Error: Task ID is required for marking a task as Done.")
-            # perintah list
+            # list command
             elif command == "list":
                 os.system("cls" if os.name == "nt" else "clear")
                 status = cmd_args[0] if cmd_args else None
-                # validasi filter status agar sesuai config
+                # validate the status filter so it matches the config
                 valid_statuses = [
                     config.status_todo,
                     config.status_in_progress,
@@ -125,12 +125,12 @@ def main():
                     print("No tasks found.")
                 else:
                     os.system("cls" if os.name == "nt" else "clear")
-                    # format tampilan tabel
+                    # table display format
                     print(
                         f"\n{'ID':<5} {'Status':<15} {'Description':<30} {'Created At':<20} {'Updated At':<20}"
                     )
                     print("-" * 90)
-                    # loop mencetak setiap tugas
+                    # loop to print each task
                     for t in tasks:
                         created = datetime.fromisoformat(t["created_at"]).strftime(
                             "%d/%m/%Y %H:%M"
@@ -164,7 +164,7 @@ def main():
                 print(
                     f"Error: Unknown command '{command}'. Type 'help' for a list of commands."
                 )
-        # tangani error konversi id
+        # handle id conversion errors
         except ValueError:
             os.system("cls" if os.name == "nt" else "clear")
             print("Error: Invalid input. Please check your command and try again.")

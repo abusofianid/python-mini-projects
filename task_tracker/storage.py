@@ -3,31 +3,31 @@ import os
 from config import file_name
 
 
-# fungsi untuk memuat data dari file JSON
+# function to load data from the JSON file
 def load_data():
 
-    # cek apakah file ada
+    # check whether the file exists
     if not os.path.exists(file_name):
-        return []  # jika file tidak ada, kembalikan list kosong
+        return []  # if the file does not exist, return an empty list
     try:
-        # buka file dalam mode 'r' (read)
+        # open the file in 'r' (read) mode
         with open(file_name, 'r') as file:
             content = file.read()
-            # jika file ada isinya, ubah dari string JSON ke list python
-            # jika file kosong, kembalikan list kosong
+            # if the file has content, convert the JSON string to a Python list
+            # if the file is empty, return an empty list
             return json.loads(content) if content else []
     except (json.JSONDecoderError, IOError):
-        # jika file rusak atau error saat membaca, kembalikan list kosong agar program tetap berjalan
+        # if the file is corrupted or reading fails, return an empty list so the program keeps running
         return []
 
 
-# fungsi untuk menyimpan data ke file JSON
+# function to save data to the JSON file
 def save_data(data):
     try:
-        # buka file dalam mode 'w' (write)
+        # open the file in 'w' (write) mode
         with open(file_name, 'w') as file:
-            # ubah data dari list python ke string JSON dan tulis ke file
-            # indent=4 untuk format yang lebih rapi
+            # convert the data from a Python list to a JSON string and write it to the file
+            # indent=4 for a tidier format
             json.dump(data, file, indent=4)
     except IOError as e:
         print(f"error saving data: {e}")

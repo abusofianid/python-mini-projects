@@ -2,22 +2,22 @@ from datetime import datetime
 import storage
 import config
 
-# class untuk mengelola tugas-tugas
+# class to manage tasks
 
 
 class taskmanager:
 
-    # fungsi untuk mendapatkan timestamp saat ini dalam format iso string
+    # function to get the current timestamp as an ISO string
     def get_timestamp(self):
         return datetime.now().isoformat()
-    # fungsi untuk menambahkan tugas baru
+    # function to add a new task
 
     def add_task(self, description):
-        # ambil data dari file
+        # load the data from the file
         tasks = storage.load_data()
-        # buat id baru, jika list kosong, id=1, jika tidak, id terakhir +1
+        # create a new id: 1 if the list is empty, otherwise the highest id + 1
         new_id = 1 if not tasks else max(t["id"] for t in tasks) + 1
-        # susun struktur data tugas baru
+        # build the data structure of the new task
         new_task = {
             "id": new_id,
             "description": description,
@@ -25,13 +25,13 @@ class taskmanager:
             "created_at": self.get_timestamp(),
             "updated_at": self.get_timestamp()
         }
-        # tambahkan ke list dan simpan ke file
+        # add it to the list and save it to the file
         tasks.append(new_task)
         storage.save_data(tasks)
-        # kembalikan id tugas baru
+        # return the id of the new task
         return new_id
 
-    # fungsi memperbrui deskripsi tugas yang ada
+    # function to update the description of an existing task
     def update_task(self, task_id, description):
         tasks = storage.load_data()
         for task in tasks:
@@ -40,10 +40,10 @@ class taskmanager:
                 task["updated_at"] = self.get_timestamp()
                 storage.save_data(tasks)
                 return True
-        # gagal id tidak ditemukan
+        # failed: the id was not found
         return False
 
-    # fungsi memperbarui status tugas
+    # function to update the status of a task
     def update_task_status(self, task_id, new_status):
         tasks = storage.load_data()
         for task in tasks:
@@ -53,24 +53,24 @@ class taskmanager:
                 storage.save_data(tasks)
                 return True
         return False
-    # fungsi menghapus tugas
+    # function to delete a task
 
     def delete_task(self, task_id):
         tasks = storage.load_data()
-        # hitung jumlah tugas dan masukkan ke variabel
+        # count the tasks and store the number in a variable
         initial_count = len(tasks)
-        # buat filtering list tugas, hanya yang id tidak sama dengan task_id
+        # filter the task list, keeping only tasks whose id is not task_id
         tasks = [t for t in tasks if t["id"] != task_id]
-        # jika jumlah tugas berkurang, berarti ada yang dihapus
+        # if the number of tasks decreased, something was deleted
         if len(tasks) < initial_count:
             storage.save_data(tasks)
             return True
         return False
-    # fungsi melihat semua tugas
+    # function to view all tasks
 
     def list_tasks(self, status_filter=None):
         tasks = storage.load_data()
-        # jika ada filter status, lakukan filtering
+        # if there is a status filter, apply it
         if status_filter:
             return [t for t in tasks if t["status"] == status_filter]
         return tasks
